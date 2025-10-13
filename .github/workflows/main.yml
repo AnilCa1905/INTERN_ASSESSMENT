@@ -1,0 +1,70 @@
+name: Playwright Tests
+ 
+on:
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Choose the browser'
+        required: true
+        type: choice
+        default: 'chromium'
+        options:
+          - chromium
+          - firefox
+          - webkit
+          - edge
+      spec:
+        description: 'Select the spec to run (or All)'
+        required: true
+        type: choice
+        default: 'windowsandframes.spec.ts'
+        options:
+          - example.spec.ts
+          - playgrounddoc.spec.ts
+          - playgroundDynamic.spec.ts
+          - qaplayground.spec.ts
+          - screener.spec.ts
+          - All
+ 
+jobs:
+  test:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+ 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+ 
+      - name: Install dependencies
+        run: npm ci
+ 
+      - name: Install Playwright browsers
+        run: npx playwright install
+ 
+      - name: Run Playwright tests
+        run: |
+          # Map Edge browser to msedge project
+          if [ "${{ github.event.inputs.browser }}" = "edge" ]; then
+            BROWSER_PROJECT="msedge"
+          else
+            BROWSER_PROJECT="${{ github.event.inputs.browser }}"
+          fi
+ 
+          # Run all specs if "All" selected
+          if [ "${{ github.event.inputs.spec }}" = "All" ]; then
+            echo "Running all Playwright tests on $BROWSER_PROJECT..."
+            npx playwright test --project=$BROWSER_PROJECT --reporter=html --output=playwright-report
+          else
+            echo "Running ${{ github.event.inputs.spec }} on $BROWSER_PROJECT..."
+            npx playwright test tests/${{ github.event.inputs.spec }} --project=$BROWSER_PROJECT --reporter=html --output=playwright-report
+          fi
+ 
+      - name: Upload Playwright HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-html-report
+          path: playwright-report/
