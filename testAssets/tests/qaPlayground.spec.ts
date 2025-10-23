@@ -1,638 +1,427 @@
-import { test, expect } from "../pages/customFixture";
+import { test, expect } from "../pages/fixture"
+import menuData from "../testData/menuData.json";
 
-test.describe("QA Playground Full Automation Sequence", () => {
-  test.beforeEach(async ({ homePage, baseURL }) => {
-    await homePage.navigate(baseURL!);
-  });
-
-  test.describe("Mini Web Apps - Dynamic Table", () => {
-    test("TC01: Open Mini Web Apps section and verify heading", async ({
-      homePage,
-    }) => {
-      await test.step("Click Mini Web Apps link", async () => {
-        await homePage.clickMiniWebApps();
-      });
-      await test.step("Verify Mini Web Apps heading visibility", async () => {
-        await expect(
-          homePage.miniWebAppsHeading,
-          "Mini Web Apps heading is not visible"
-        ).toBeVisible();
-      });
-    });
-
-    test("TC02: Verify Spider-Man real name", async ({ miniWebApps }) => {
-      await test.step("Open Dynamic Table", async () => {
-        await miniWebApps.clickDynamicTable();
-      });
-      await test.step("Check Spider-Man's real name", async () => {
-        await expect(
-          miniWebApps.spiderManRealName,
-          "Spider-Man's real name text is incorrect"
-        ).toHaveText("Peter Parker");
-      });
-    });
-
-    test("TC03: Ensure only one Spider-Man row exists", async ({
-      miniWebApps,
-    }) => {
-      await test.step("Open Dynamic Table", async () => {
-        await miniWebApps.clickDynamicTable();
-      });
-      await test.step("Verify single Spider-Man row", async () => {
-        await expect(
-          miniWebApps.spiderManRow,
-          "Expected exactly one Spider-Man row"
-        ).toHaveCount(1);
-      });
-    });
-
-    test("TC04: Verify Spider-Man real name after shuffle", async ({
-      miniWebApps,
-    }) => {
-      await test.step("Reload table and verify Spider-Man", async () => {
-        await miniWebApps.clickDynamicTable();
-        await miniWebApps.reloadTablePage();
-        await expect(
-          miniWebApps.spiderManRealName,
-          "Spider-Man's real name mismatch after reload"
-        ).toHaveText("Peter Parker");
-      });
-    });
-  });
-
-  test.describe("Verify Account Code", () => {
-    test("TC05: Enter code '9' and check success", async ({
-      verifyAccountPage,
-    }) => {
-      await test.step("Fill and submit code '9'", async () => {
-        await verifyAccountPage.fillAndSubmitCode("9");
-      });
-      await test.step("Verify success message", async () => {
-        await expect(
-          verifyAccountPage.successMessage,
-          "Success message not visible for valid code"
-        ).toBeVisible();
-      });
-    });
-
-    test("TC06: Enter incorrect code '1' and check no success", async ({
-      verifyAccountPage,
-    }) => {
-      await test.step("Fill and submit code '1'", async () => {
-        await verifyAccountPage.fillAndSubmitCode("1");
-      });
-      await test.step("Verify success message not visible", async () => {
-        await expect(
-          verifyAccountPage.successMessage,
-          "Success message visible for invalid code"
-        ).not.toBeVisible();
-      });
-    });
-
-    test("TC07: Enter empty code and check no success", async ({
-      verifyAccountPage,
-    }) => {
-      await test.step("Fill and submit empty code", async () => {
-        await verifyAccountPage.fillAndSubmitCode("");
-      });
-      await test.step("Verify success message not visible", async () => {
-        await expect(
-          verifyAccountPage.successMessage,
-          "Success message visible for empty code"
-        ).not.toBeVisible();
-      });
-    });
-  });
-
-  test.describe("Tags Input Box", () => {
-    test("TC08: Add multiple tags", async ({ tagsInputBoxPage }) => {
-      await test.step("Add tags 'tag1' and 'tag2'", async () => {
-        await tagsInputBoxPage.addTagsAndReset(["tag1", "tag2"]);
-      });
-      await test.step("Verify tag count and remaining", async () => {
-        await expect(
-          tagsInputBoxPage.tags,
-          "Tag count mismatch after adding tags"
-        ).toHaveCount(2);
-        await expect(
-          tagsInputBoxPage.remainingCount,
-          "Remaining tag count mismatch"
-        ).toHaveText("8");
-      });
-    });
-
-    test("TC09: Remove a tag", async ({ tagsInputBoxPage }) => {
-      await test.step("Add tags 'tag1' and 'tag2' then remove 'tag1'", async () => {
-        await tagsInputBoxPage.removeTagAfterAdding(["tag1", "tag2"], "tag1");
-      });
-      await test.step("Verify updated count", async () => {
-        await expect(
-          tagsInputBoxPage.tags,
-          "Tag count after removal is incorrect"
-        ).toHaveCount(1);
-        await expect(
-          tagsInputBoxPage.remainingCount,
-          "Remaining count not updated correctly"
-        ).toHaveText("9");
-      });
-    });
-
-    test("TC10: Prevent empty tag addition", async ({ tagsInputBoxPage }) => {
-      await test.step("Try adding empty tag", async () => {
-        await tagsInputBoxPage.addTagsAndReset([""]);
-      });
-      await test.step("Verify no tags added", async () => {
-        await expect(
-          tagsInputBoxPage.tags,
-          "Empty tag should not be added"
-        ).toHaveCount(0);
-        await expect(
-          tagsInputBoxPage.remainingCount,
-          "Remaining count incorrect when adding empty tag"
-        ).toHaveText("10");
-      });
-    });
-
-    test("TC11: Prevent duplicate tags", async ({ tagsInputBoxPage }) => {
-      await test.step("Add duplicate 'tag1'", async () => {
-        await tagsInputBoxPage.addTagsAndReset(["tag1", "tag1"]);
-      });
-      await test.step("Verify one tag present", async () => {
-        await expect(
-          tagsInputBoxPage.tags,
-          "Duplicate tag should not be added"
-        ).toHaveCount(1);
-      });
-    });
-
-    test("TC12: Prevent tags beyond max limit", async ({
-      tagsInputBoxPage,
-    }) => {
-      await test.step("Add 12 tags", async () => {
-        const tags = Array.from({ length: 12 }, (_, i) => `tag${i + 1}`);
-        await tagsInputBoxPage.addTagsAndReset(tags);
-      });
-      await test.step("Verify only 10 tags accepted", async () => {
-        await expect(
-          tagsInputBoxPage.tags,
-          "More than 10 tags should not be allowed"
-        ).toHaveCount(10);
-      });
-    });
-
-    test("TC13: Add special character tags", async ({ tagsInputBoxPage }) => {
-      await test.step("Add '@!$' and '#$%'", async () => {
-        await tagsInputBoxPage.addTagsAndReset(["@!$", "#$%"]);
-      });
-      await test.step("Verify 2 tags accepted", async () => {
-        await expect(
-          tagsInputBoxPage.tags,
-          "Special character tags were not accepted"
-        ).toHaveCount(2);
-      });
-    });
-  });
-
-  test.describe("Multi-Level Dropdowns", () => {
-    test("TC14: Open Settings submenu and click HTML", async ({
-      dropdownPage,
-    }) => {
-      await test.step("Open Settings submenu", async () => {
-        const { url: settingsUrl, submenuItems } =
-          await dropdownPage.openSettingsAndGetDetails();
-        await expect(settingsUrl, "Settings URL mismatch").toBe(
-          "https://qaplayground.dev/apps/multi-level-dropdown/#settings"
-        );
-        await expect(submenuItems, "Settings submenu items mismatch").toEqual(
-          dropdownPage.expectedSettingsSubMenu
-        );
-      });
-      await test.step("Click HTML submenu and verify URL", async () => {
-        await dropdownPage.clickSubMenuItem("HTML");
-        const htmlUrl = await dropdownPage.getCurrentURL();
-        await expect(htmlUrl, "HTML submenu URL mismatch").toBe(
-          "https://qaplayground.dev/apps/multi-level-dropdown/#!HTML"
-        );
-      });
-    });
-
-    test("TC15: Open Animals submenu and click first animal", async ({
-      dropdownPage,
-    }) => {
-      await test.step("Open Animals submenu", async () => {
-        const { url: animalsUrl, submenuItems } =
-          await dropdownPage.openAnimalsAndGetDetails();
-        await expect(animalsUrl, "Animals submenu URL mismatch").toBe(
-          "https://qaplayground.dev/apps/multi-level-dropdown/#animals"
-        );
-        await expect(submenuItems, "Animals submenu items mismatch").toEqual(
-          dropdownPage.expectedAnimalsSubMenu
-        );
-      });
-      await test.step("Click Kangaroo and verify URL", async () => {
-        await dropdownPage.clickSubMenuItem("Kangaroo");
-        const firstAnimalUrl = await dropdownPage.getCurrentURL();
-        await expect(firstAnimalUrl, "Kangaroo submenu URL mismatch").toBe(
-          "https://qaplayground.dev/apps/multi-level-dropdown/#!Kangaroo"
-        );
-      });
-    });
-  });
-  test.describe("Navigation and Tabs", () => {
-    test("TC16: Open new tab and verify welcome text", async ({
-      newTabPage,
-    }) => {
-      await test.step("Open new tab section", async () => {
-        await newTabPage.openNewTabSection();
-      });
-      await test.step("Click 'Open New Tab' and verify heading", async () => {
-        const newPage = await newTabPage.clickOpenNewTab();
-        const heading = newTabPage.newPageHeadingLocator(newPage);
-        await expect(heading, "New tab heading not visible").toBeVisible();
-      });
-    });
-
-    test("TC17: Click navigation menu and verify headers", async ({
-      navigationMenuPage,
-    }) => {
-      await test.step("Open navigation menu", async () => {
-        await navigationMenuPage.clickNavMenu();
-      });
-      await test.step("Verify page headers", async () => {
-        const headers = await navigationMenuPage.getAllPagesFlow();
-        await expect(headers, "Navigation headers mismatch").toEqual([
-          "Welcome to the About Page",
-          "Welcome to the Blog Page",
-          "Welcome to the Portfolio Page",
-          "Welcome to the Contact Page",
-        ]);
-      });
-    });
-  });
-
-  test.describe("Popups and Modals", () => {
-    test("TC18: Open popup, close and verify success message", async ({
-      popUpWindowPage,
-    }) => {
-      await test.step("Open popup section", async () => {
-        await popUpWindowPage.openPopUpSection();
-      });
-      await test.step("Open and close popup, verify message", async () => {
-        const successMessage = await popUpWindowPage.openPopUpAndClose();
-        await expect(
-          successMessage,
-          "Popup success message not visible"
-        ).toBeVisible();
-        await expect(
-          successMessage,
-          "Popup success message text incorrect"
-        ).toHaveText("Button Clicked");
-      });
-    });
-
-    test("TC19: Close modal popup and verify welcome message", async ({
-      modalPopUpPage,
-    }) => {
-      await test.step("Open modal popup section", async () => {
-        await modalPopUpPage.openModalPopupSection();
-      });
-      await test.step("Verify welcome message", async () => {
-        await expect(
-          modalPopUpPage.welcomeMessage,
-          "Modal welcome message not visible"
-        ).toBeVisible();
-      });
-    });
-  });
-
-  test.describe("Iframes", () => {
-    test("TC20: Click button in nested iframe and verify message", async ({
-      nestedIframePage,
-    }) => {
-      await test.step("Open nested iframe section", async () => {
-        await nestedIframePage.openNestedIframeSection();
-      });
-      await test.step("Click button and verify message", async () => {
-        const msgLocator = await nestedIframePage.clickButtonAndGetMessage();
-        await expect(
-          msgLocator,
-          "Message inside nested iframe not visible"
-        ).toBeVisible();
-      });
-    });
-
-    test("TC21: Verify Changeable Iframe sequence", async ({
-      changeableIframePage,
-    }) => {
-      await test.step("Verify iframe sequence and final message", async () => {
-        await changeableIframePage.verifyIframeSequence();
-        await expect(
-          changeableIframePage.secondIframeLegend,
-          "Second iframe legend not visible"
-        ).toBeVisible();
-      });
-    });
-  });
-
-  test.describe("File Upload and Download", () => {
-    test("TC22: Upload image file and verify filename", async ({
-      qaUploadFilePage,
-    }) => {
-      await test.step("Upload file and verify filename", async () => {
-        const uploadedFile =
-          await qaUploadFilePage.uploadFileAndReturnLocator();
-        await expect(uploadedFile, "Uploaded file not visible").toBeVisible();
-      });
-    });
-
-    test("TC23: Download file and verify name & size", async ({
-      downloadPage,fs,path
-    }) => {
-      await test.step("Download file and verify", async () => {
-        const filePath = await downloadPage.downloadFileAndReturnPath(
-          "sample.pdf"
-        );
-        await expect(
-          fs.existsSync(filePath),
-          "Downloaded file does not exist"
-        ).toBeTruthy();
-        await expect(
-          path.basename(filePath),
-          "Downloaded file name mismatch"
-        ).toBe("sample.pdf");
-        const stats = fs.statSync(filePath);
-        await expect(stats.size > 0, "Downloaded file is empty").toBeTruthy();
-      });
-    });
-  });
-
-  test.describe("Budget Tracker", () => {
-    test("TC24: Add income entry and verify total", async ({
-      budgetTrackerPage,
-    }) => {
-      await test.step("Add income entry", async () => {
-        await budgetTrackerPage.openBudgetTracker();
-        await budgetTrackerPage.addEntry(100, "income");
-      });
-      await test.step("Verify total updated", async () => {
-        const total = await budgetTrackerPage.getTotal();
-        await expect(
-          total,
-          "Budget total incorrect after adding income"
-        ).toBeCloseTo(100, 2);
-      });
-    });
-
-    test("TC25: Add expense entry and verify total", async ({
-      budgetTrackerPage,
-    }) => {
-      await test.step("Add expense entry", async () => {
-        await budgetTrackerPage.openBudgetTracker();
-        await budgetTrackerPage.addEntry(50, "expense");
-      });
-      await test.step("Verify total updated", async () => {
-        const total = await budgetTrackerPage.getTotal();
-        await expect(
-          total,
-          "Budget total incorrect after adding expense"
-        ).toBeCloseTo(-50, 2);
-      });
-    });
-  });
-
-  test.describe("Mouse Hover", () => {
-    test("TC26: Hover over movie poster and verify details", async ({
-      mouseHoverPage,
-    }) => {
-      await test.step("Open mouse hover section", async () => {
-        await mouseHoverPage.openMouseHoverSection();
-      });
-      await test.step("Hover and verify details", async () => {
-        await mouseHoverPage.hoverOverMovie();
-        const details = await mouseHoverPage.getMovieDetails();
-        await expect(details.title, "Movie title mismatch").toBe(
-          mouseHoverPage.expectedTitle
-        );
-        await expect(details.current, "Current price mismatch").toBe(
-          mouseHoverPage.expectedCurrentPrice
-        );
-        await expect(details.old, "Old price mismatch").toBe(
-          mouseHoverPage.expectedOldPrice
-        );
-        await expect(
-          details.buyVisible,
-          "Buy button should be visible"
-        ).toBeTruthy();
-      });
-    });
-  });
-
-  test.describe("Shadow DOM & Rating Slider", () => {
-    test("TC27: Click Boost button in Shadow DOM", async ({
-      shadowDomPage,
-    }) => {
-      await test.step("Open Shadow DOM app and click Boost", async () => {
-        await shadowDomPage.openShadowDomApp();
-        const progress = await shadowDomPage.clickBoostAndGetProgress();
-        await expect(progress, "Boost progress should be 95").toBe(95);
-      });
-    });
-
-    test("TC28: Move slider and verify feedback", async ({
-      ratingSliderPage,
-    }) => {
-      await test.step("Open slider section and move slider", async () => {
-        await ratingSliderPage.openSection();
-        await ratingSliderPage.moveSliderUntilFeedbackVisible();
-      });
-      await test.step("Click feedback button and verify message", async () => {
-        await ratingSliderPage.clickFeedbackButton();
-        await expect(
-          ratingSliderPage.feedbackMessage,
-          "Feedback message not visible"
-        ).toBeVisible();
-      });
-    });
-  });
-
-  test.describe("Sortable List", () => {
-    test("TC29: Arrange items and verify correct order", async ({
-      sortableListPage,
-    }) => {
-      await test.step("Open sortable list section", async () => {
-        await sortableListPage.navigate();
-      });
-      await test.step("Sort and verify all items", async () => {
-        const totalItems = await sortableListPage.countItems();
-        let sortedIndex = 0;
-        while (true) {
-          const items = await sortableListPage.getAllItemsClasses();
-          sortedIndex = items.findIndex(
-            (item) => !item.className?.includes("right")
-          );
-          if (sortedIndex === -1) break;
-          for (let i = sortedIndex; i < totalItems; i++) {
-            for (let j = i + 1; j < totalItems; j++) {
-              const currentItems = await sortableListPage.getAllItemsClasses();
-              if (currentItems[i].name! > currentItems[j].name!) {
-                await sortableListPage.dragItem(j, i);
-                await sortableListPage.clickCheckOrder();
-              }
-            }
-          }
-        }
-        const finalItems = await sortableListPage.getAllItemsClasses();
-        for (const item of finalItems) {
-          await expect(
-            item.className,
-            `Item ${item.name} not in correct position`
-          ).toContain("right");
-        }
-      });
-    });
-  });
-
-  test.describe("Redirect Chain, Context Menu & Fetching Data", () => {
-    test("TC30: Verify Redirect Chain and Go Back button", async ({
-      redirectPage,
-    }) => {
-      await test.step("Trigger redirects and verify Go Back", async () => {
-        await redirectPage.clickHeader();
-        await redirectPage.clickRedirectLink();
-        await redirectPage.goBackButton.waitFor({
-          state: "visible",
-          timeout: 10000,
-        });
-        await expect(
-          redirectPage.goBackButton,
-          "Go Back button not visible after redirects"
-        ).toBeVisible();
-      });
-    });
-
-    test("TC31: Right-click context menu and verify items", async ({
-      rightClickPage,
-    }) => {
-      await test.step("Open context menu and verify options", async () => {
-        await rightClickPage.rightClickHeader();
-        await expect(
-          rightClickPage.previewOption,
-          "Preview option missing"
-        ).toBeVisible();
-        await expect(
-          rightClickPage.shareOption,
-          "Share option missing"
-        ).toBeVisible();
-        await expect(
-          rightClickPage.getLinkOption,
-          "Get Link option missing"
-        ).toBeVisible();
-        await expect(
-          rightClickPage.renameOption,
-          "Rename option missing"
-        ).toBeVisible();
-        await expect(
-          rightClickPage.deleteOption,
-          "Delete option missing"
-        ).toBeVisible();
-        await expect(
-          rightClickPage.settingsOption,
-          "Settings option missing"
-        ).toBeVisible();
-      });
-      await test.step("Hover share and verify submenu items", async () => {
-        await rightClickPage.hoverShare();
-        await expect(
-          rightClickPage.twitterOption,
-          "Twitter option missing"
-        ).toBeVisible();
-        await expect(
-          rightClickPage.instagramOption,
-          "Instagram option missing"
-        ).toBeVisible();
-        await expect(
-          rightClickPage.dribbleOption,
-          "Dribble option missing"
-        ).toBeVisible();
-        await expect(
-          rightClickPage.telegramOption,
-          "Telegram option missing"
-        ).toBeVisible();
-      });
-    });
-
-    test("TC32: Verify 100 cards loaded with headers and body", async ({
-      fetchingDataPage,
-    }) => {
-      await test.step("Click fetching data header and wait for card load", async () => {
-        await fetchingDataPage.clickFetchingDataHeader();
-        await fetchingDataPage.page.waitForFunction(
-          (selector) => document.querySelectorAll(selector).length === 100,
-          fetchingDataPage.cardSelector
-        );
-        const cards = fetchingDataPage.page.locator(
-          fetchingDataPage.cardSelector
-        );
-        await expect(cards, "Expected 100 cards to be loaded").toHaveCount(100);
-      });
-      await test.step("Validate each card's header and body visibility", async () => {
-        const cards = fetchingDataPage.page.locator(
-          fetchingDataPage.cardSelector
-        );
-        for (let i = 0; i < 100; i++) {
-          const card = cards.nth(i);
-          await expect(
-            card.locator(fetchingDataPage.cardHeaderSelector),
-            `Card ${i} header not visible`
-          ).toBeVisible();
-          await expect(
-            card.locator(fetchingDataPage.cardBodySelector),
-            `Card ${i} body not visible`
-          ).toBeVisible();
-        }
-      });
-    });
-  });
-
-  test.describe("Stars Rating Widget", () => {
-    test("TC33: Click each star and verify emoji", async ({
-      starsRatingPage,
-    }) => {
-      await test.step("Open stars rating widget", async () => {
-        await starsRatingPage.openStarsRatingWidget();
-      });
-      await test.step("Click each star and verify emoji visibility", async () => {
-        for (let i = 0; i < 5; i++) {
-          const emojiLocator = await starsRatingPage.rateStarAndGetEmojiLocator(
-            i
-          );
-          await expect(
-            emojiLocator,
-            `Emoji for star ${i + 1} not visible`
-          ).toBeVisible();
-        }
-      });
-    });
-  });
-
-test.describe("Covered Elements", () => {
-  test("TC34: Click covered button and verify success", async ({
-    coveredElementsPage,
+test.describe("QA PLAYGROUND SITE DEMO FUNCTIONALITIES", () => {
+  test("Identifying superhero name and checking if the real name is same as expected", async ({
+    playg,
   }) => {
-    await test.step("Open covered elements section", async () => {
-      await coveredElementsPage.openCoveredElementsSection();
+    await test.step("Launch the website and verify main heading", async () => {
+      await playg.launchWebsite();
+      await expect(
+        playg.mainHead,
+        "Main heading should be visible"
+      ).toBeVisible();
+    });
+    
+    await test.step("Navigate to dynamic table and verify Spiderman real name", async () => {
+      await playg.moveToDynamicTable();
+      await expect(
+        playg.spideRealName,
+        "Expected name to be Peter Parker"
+      ).toHaveText("Peter Parker");
+    });
+  });
+
+  test("Check superhero name is NOT Batman for spiderman", async ({
+    playg,
+  }) => {
+    await test.step("Launch the website and navigate to dynamic table", async () => {
+      await playg.launchWebsite();
+      await playg.moveToDynamicTable();
     });
 
-    await test.step(
-      'Scroll, click covered button, and verify "Mission accomplished"',
-      async () => {
-        await coveredElementsPage.scrollClickAndVerify();
-        await expect(
-          coveredElementsPage.missionAccomplishedText,
-          'Expected "Mission accomplished" message to be visible after clicking "You Got Me" button.'
-        ).toBeVisible();
-      }
-    );
+    await test.step("Verify superhero name is NOT Batman", async () => {
+      await playg.verifyIncorrectSuperheroName("Batman");
+    });
+  });
+
+  test("Check superhero name is NOT empty in the table", async ({ playg }) => {
+    await test.step("Launch the website and navigate to dynamic table", async () => {
+      await playg.launchWebsite();
+      await playg.moveToDynamicTable();
+    });
+
+    await test.step("Verify superhero name is not empty", async () => {
+      await playg.verifySuperheroNameIsEmpty();
+    });
+  });
+
+  test('Check superhero name in the table does NOT contain "man"', async ({
+    playg,
+  }) => {
+    await test.step("Launch the website and navigate to dynamic table", async () => {
+      await playg.launchWebsite();
+      await playg.moveToDynamicTable();
+    });
+
+    await test.step('Verify superhero name does not contain "man"', async () => {
+      await playg.verifyPartialSuperheroName("man");
+    });
+  });
+
+  test("Check superhero name in the table does NOT contain numbers", async ({
+    playg,
+  }) => {
+    await test.step("Launch the website and navigate to dynamic table", async () => {
+      await playg.launchWebsite();
+      await playg.moveToDynamicTable();
+    });
+
+    await test.step("Verify superhero name contains no numbers", async () => {
+      await playg.verifySuperheroNameNoNumbers();
+    });
+  });
+
+  test("Verify account by entering the digit nine in the input filed and validate success message is displayed", async ({
+    playg,
+  }) => {
+    await test.step("Launch website and move to verify account page", async () => {
+      await playg.launchWebsite();
+      await playg.moveToVerifyAcc();
+      await expect(
+        playg.verifyHead,
+        "Verification heading should be visible"
+      ).toBeVisible();
+    });
+
+    await test.step('Enter digit "9" and verify success message', async () => {
+      await playg.enterDataNine("9");
+      await expect(
+        playg.successMsg,
+        "Success message should be displayed after entering 9"
+      ).toBeVisible();
+    });
+  });
+
+  test("Verify account by entering the wrong digit  in the input filed and validate success message is not displayed", async ({
+    playg,
+  }) => {
+    await test.step("Launch website and move to verify account page", async () => {
+      await playg.launchWebsite();
+      await playg.moveToVerifyAcc();
+      await expect(
+        playg.verifyHead,
+        "Verification heading should be visible"
+      ).toBeVisible();
+    });
+
+    await test.step("Enter wrong digit and verify success message is not displayed", async () => {
+      await playg.enterDataNine("8");
+      await expect(
+        playg.successMsg,
+        "Success message should NOT be displayed after wrong input"
+      ).not.toBeVisible();
+    });
+  });
+
+  test("Add and remove tags and verify remaining tags count is displayed", async ({
+    playg,
+  }) => {
+    await test.step("Launch website and navigate to tags section", async () => {
+      await playg.launchWebsite();
+      await playg.moveToTags();
+      await expect(
+        playg.tagsHead,
+        "Tags heading should be visible"
+      ).toBeVisible();
+    });
+
+    await test.step("Enter tags and verify initial remaining count", async () => {
+      await playg.enterTags();
+      await expect(
+        playg.countP,
+        "Remaining tags count should be zero initially"
+      ).toHaveText("0");
+    });
+
+    await test.step('Remove "python" tag and verify remaining count', async () => {
+      await playg.removeTag("python");
+      await expect(
+        playg.countP,
+        "Remaining tags count should be one after removing"
+      ).toHaveText("1");
+    });
+  });
+
+  test("Open new tab by clicking on the button and verify a message is the displayed in the new page", async ({
+    playg,
+  }) => {
+    await test.step("Launch website, navigate and click to open new tab", async () => {
+      await playg.launchWebsite();
+      await playg.navToNewTab();
+      await playg.clickOnNewTab();
+    });
+
+    await test.step("Verify heading is visible in new tab", async () => {
+      await expect(
+        playg.newTabHead,
+        "Heading in new tab should be visible"
+      ).toBeVisible();
+    });
+  });
+
+  test("Open pop-up and click on the button in it and verify a message is the displayedon the main window", async ({
+    playg,
+  }) => {
+    await test.step("Launch website and trigger popup", async () => {
+      await playg.launchWebsite();
+      await playg.navGateToPop();
+      await playg.getPopUp();
+      await expect(
+        playg.popMesage,
+        "Popup message should be visible"
+      ).toHaveText("Click to open pop-up");
+    });
+
+    await test.step("Click button in popup and verify message changes", async () => {
+      await playg.popedUpSubmit();
+      await expect(
+        playg.popMesage,
+        "Popup message should change after button click"
+      ).toHaveText("Button Clicked");
+    });
+  });
+
+  test("Click on the button in the iframe that is in another iframe and verify success message is displayed", async ({
+    playg,
+  }) => {
+    await test.step("Launch website and navigate to nested iframe", async () => {
+      await playg.launchWebsite();
+      await playg.goToIframe();
+    });
+
+    await test.step("Click button inside nested iframe and verify success message", async () => {
+      await playg.clickIframeB();
+      await expect(
+        playg.iframeVal,
+        "Iframe success message should be visible"
+      ).toBeVisible();
+    });
+  });
+
+  test("Open each link in the navigaion window and assert the pages content", async ({
+    playg,
+  }) => {
+    await test.step("Launch website and go to navigation menu", async () => {
+      await playg.launchWebsite();
+      await playg.gotoNavigationMenu();
+    });
+
+    await test.step("Verify Home page link and content", async () => {
+      await expect(
+        playg.homeLink,
+        "Home link text should be correct"
+      ).toHaveText("Home");
+    });
+
+    await test.step("Go to About page and verify heading", async () => {
+      await playg.gotoAbout();
+      await expect(
+        playg.validationHead,
+        "About page heading should be visible"
+      ).toHaveText("Welcome to the About Page");
+      await playg.goBackNav();
+    });
+
+    await test.step("Go to Blog page and verify heading", async () => {
+      await playg.gotoBlog();
+      await expect(
+        playg.validationHead,
+        "Blog page heading should be visible"
+      ).toHaveText("Welcome to the Blog Page");
+      await playg.goBackNav();
+    });
+
+    await test.step("Go to Portfolio page and verify heading", async () => {
+      await playg.gotoPortfolio();
+      await expect(
+        playg.validationHead,
+        "Portfolio page heading should be visible"
+      ).toHaveText("Welcome to the Portfolio Page");
+      await playg.goBackNav();
+    });
+
+    await test.step("Go to Contact page and verify heading", async () => {
+      await playg.gotoContact();
+      await expect(
+        playg.validationHead,
+        "Contact page heading should be visible"
+      ).toHaveText("Welcome to the Contact Page");
+    });
+  });
+
+  test("Click on the hidden button and verify hidden message is displayed", async ({
+    playg,
+  }) => {
+    await test.step("Launch website and navigate to covered page", async () => {
+      await playg.launchWebsite();
+      await playg.navToCoveredPage();
+      await expect(
+        playg.coveredHeadVal,
+        "Covered page heading should be visible"
+      ).toHaveText("Click the button below");
+    });
+
+    await test.step("Click hidden button and verify mission accomplished text", async () => {
+      await playg.coveredButtonClick();
+      await expect(
+        playg.coveredHeadVal,
+        "Mission accomplished text should appear"
+      ).toHaveText("Mission accomplished");
+    });
+  });
+
+  test("Put mouse pointer on an image and verify movie price is displayed", async ({
+    playg,
+  }) => {
+    await test.step("Launch website and navigate to hover image", async () => {
+      await playg.launchWebsite();
+      await playg.gotoHoverImage();
+    });
+
+    await test.step("Hover over image and verify movie price displayed", async () => {
+      await playg.hoverOverImage();
+      await expect(
+        playg.hoverPrice,
+        "Movie price should appear after hover"
+      ).toHaveText("$24.96");
+    });
+  });
+
+  test("Upload an image file and verify the file name is displayed", async ({
+  playg,
+}) => {
+  await test.step("Launch website and navigate to file upload section", async () => {
+    await playg.launchWebsite();
+    await playg.fileUploadNavigation();
+  });
+
+  await test.step("Upload file and verify uploaded file count", async () => {
+    const filePath = "testAssets/testData/downloadtxt/info.txt";
+    await playg.fileUploading(filePath);
+    await expect(
+      playg.fileUpldVal,
+      "Uploaded file count should be displayed"
+    ).toContainText("1");
   });
 });
+  test("Click on each menu and sub-menu item and assert the message displayed", async ({
+    playg,
+  }) => {
+    await test.step("Launch website and navigate to right click context menu", async () => {
+      await playg.launchWebsite();
+      await playg.navToRightContext();
+    });
+
+    const menuItems = menuData.menuItems;
+    const subMenuItems = menuData.subMenuItems;
+
+    for (let index = 0; index < menuItems.length; index++) {
+      await test.step(`Right click and click menu item: ${menuItems[index]}`, async () => {
+        await playg.rightClick();
+        await playg.menuItemClick(menuItems[index]);
+        await expect(
+          playg.contextVal,
+          `Menu item ${menuItems[index]} should be clicked`
+        ).toHaveText("Menu item " + menuItems[index] + " clicked");
+      });
+    }
+
+    for (let index = 0; index < subMenuItems.length; index++) {
+      await test.step(`Right click, hover Share and click submenu item: ${subMenuItems[index]}`, async () => {
+        await playg.rightClick();
+        await playg.menuItemHover("Share");
+        await playg.menuItemClick(subMenuItems[index]);
+        await expect(
+          playg.contextVal,
+          `Submenu item ${subMenuItems[index]} should be clicked`
+        ).toHaveText("Menu item " + subMenuItems[index] + " clicked");
+      });
+    }
+  });
+
+  test("Click on the button and assert that progress is on the 95 percent", async ({
+    playg,
+  }) => {
+    await test.step("Launch website, navigate and click shadow DOM button", async () => {
+      await playg.launchWebsite();
+      await playg.goToShadowDom();
+      await playg.shadowButtonClick();
+    });
+
+    await test.step("Verify progress bar percent is 95", async () => {
+      await expect(
+        playg.progressBar,
+        "Progress bar percent attribute should be 95"
+      ).toHaveAttribute("percent", "95", {
+        timeout: 9000,
+      });
+    });
+  });
+
+  test("Set slider value to 50 and submit feedback by clicking on the button", async ({
+    playg,
+  }) => {
+    await test.step("Launch website and navigate to slider", async () => {
+      await playg.launchWebsite();
+      await playg.navigateToSlider();
+    });
+
+    await test.step("Move slider until feedback message is visible and verify", async () => {
+      await playg.moveSliderUntilFeedbackVisible();
+      await expect(
+        playg.sliderVal,
+        "Feedback message should appear after slider set to 50"
+      ).toHaveText("Thank you for your feedback!");
+    });
+  });
+
+  test("Download a file and assert the files name and size", async ({
+    playg,
+  }) => {
+    await test.step("Launch website, navigate to download page and download file", async () => {
+      await playg.launchWebsite();
+      await playg.navToDownloadFile();
+      await playg.downloadFile();
+    });
+  });
+
+  test("Close modal popup if displayed and assert welcome message", async ({
+    playg,
+  }) => {
+    await test.step("Open modal popup section and verify welcome message", async () => {
+      await playg.openModalPopupSection();
+      await expect(
+        playg.welcomeMessage,
+        'Modal popup welcome message "Welcome Peter Parker!" is not visible.'
+      ).toBeVisible();
+    });
+  });
+
+  test("Wait until API data is fetched and then assert loaded posts", async ({
+    playg,
+  }) => {
+    await test.step("Launch fetch website and open fetch data section", async () => {
+      await playg.launchFetchWebsite();
+      const cardCount = await playg.openFetchData();
+      await expect(cardCount, "Count not greater than 90").toBeGreaterThan(90);
+    });
+  });
+
+  test("Verify redirect chain messages and go back button", async ({
+    playg,
+  }) => {
+    await test.step("Trigger redirect chain", async () => {
+      await playg.clickHeader();
+      await playg.clickRedirectLink();
+    });
+
+    await test.step("Wait for go back button and verify visibility", async () => {
+      await playg.goBackButton.waitFor({ state: "visible", timeout: 10000 });
+      await expect(
+        playg.goBackButton,
+        'Redirect chain failed: "Go Back" button not visible'
+      ).toBeVisible();
+    });
+  });
 });
