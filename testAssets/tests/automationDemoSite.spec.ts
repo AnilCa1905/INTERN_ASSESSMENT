@@ -1,4 +1,4 @@
-import { test, expect } from "../customFixture";
+import { test, expect, } from "../pages/customFixture"
 
 test.describe("Automation Demo Site - Web Component Functional Tests", () => {
   test.beforeEach(async ({ basePage }) => {

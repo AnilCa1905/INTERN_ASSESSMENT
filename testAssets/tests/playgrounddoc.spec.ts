@@ -1,4 +1,4 @@
-import { test, fs } from "../fixture"
+import { test, fs } from "../pages/fixture"
 
 
 test.describe("Static Table Export Excel Validations", () => {
