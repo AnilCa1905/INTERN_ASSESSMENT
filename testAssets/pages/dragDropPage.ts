@@ -29,7 +29,7 @@ export default class DragDropPage extends BasePage {
   readonly dynamicDroppedImages: Locator[];
 
   /**
-   * Initializes all locators required for drag-and-drop tests
+   * Initializes all locators required for drag and drop tests
    * @param {Page} page - Playwright Page object
    */
   constructor(page: Page) {

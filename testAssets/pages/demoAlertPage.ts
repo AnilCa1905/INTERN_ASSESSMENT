@@ -5,7 +5,7 @@ import BasePage from "./basePage";
  * Page Object for handling different types of alerts:
  * - Simple alert (OK)
  * - Confirm alert (OK / Cancel)
- * - Prompt alert (type text / cancel)
+ * - Prompt alert (Type text / cancel)
  */
 export default class DemoAlertPage extends BasePage {
   readonly switchToLink: Locator;
