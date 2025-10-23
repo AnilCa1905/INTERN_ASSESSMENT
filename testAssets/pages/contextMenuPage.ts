@@ -47,7 +47,7 @@ export default class ContextMenuPage extends BasePage {
   }
 
   /**
-   * Clicks a specific item from the context menu.
+   * Clicks a specific item from the context menu
    * @param menu - The exact visible text of the context menu item to click.
    */
   async menuItemClick(menu: string): Promise<void> {

@@ -12,7 +12,7 @@ test.describe("QA PLAYGROUND SITE DEMO FUNCTIONALITIES", () => {
         "Main heading should be visible"
       ).toBeVisible();
     });
-
+    
     await test.step("Navigate to dynamic table and verify Spiderman real name", async () => {
       await playg.moveToDynamicTable();
       await expect(

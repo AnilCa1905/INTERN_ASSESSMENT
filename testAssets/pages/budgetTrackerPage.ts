@@ -32,7 +32,7 @@ export default class BudgetTrackerPage extends BasePage {
   }
 
   /**
-   * Add a new budget entry with the specified amount and type.
+   * Add a new budget entry with the specified amount & type.
    *
    * @async
    * @param {number} amount - The amount for the new entry.
