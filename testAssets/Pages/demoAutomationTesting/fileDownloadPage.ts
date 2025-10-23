@@ -1,25 +1,21 @@
 import { Page, Locator } from "@playwright/test";
 import path from "path";
 import fs from "fs";
+import BasePage from "./basePage"; 
 
 /**
  * Page Object Model for the "File Download" component.
- * Handles navigation, text input, file creation, file download, and verification.
+ * Extends BasePage and handles navigation, file creation, download, and verification.
  */
-export class FileDownloadPage {
-  readonly page: Page;
+export class FileDownloadPage extends BasePage {
   readonly moreLink: Locator;
   readonly fileDownloadLink: Locator;
   readonly textBox: Locator;
   readonly createBtn: Locator;
   readonly downloadLink: Locator;
 
-  /**
-   * Initializes all locators for the File Download page.
-   * @param page - The Playwright Page instance representing the current browser page.
-   */
   constructor(page: Page) {
-    this.page = page;
+    super(page); // call BasePage constructor
     this.moreLink = page.locator('//a[text()="More"]');
     this.fileDownloadLink = page.locator('//a[text()="File Download"]');
     this.textBox = page.locator("#textbox");
@@ -28,7 +24,7 @@ export class FileDownloadPage {
   }
 
   /**
-   * Navigates to the "File Download" section by clicking the More and File Download links.
+   * Navigates to the "File Download" section.
    */
   async navigateToFileDownload(): Promise<void> {
     await this.moreLink.click();
@@ -36,8 +32,7 @@ export class FileDownloadPage {
   }
 
   /**
-   * Fills the input textbox with the given text and presses Enter.
-   * @param data - The text content to enter into the textbox.
+   * Enters text into the input box.
    */
   async enterText(data: string): Promise<void> {
     await this.textBox.fill(data);
@@ -46,7 +41,6 @@ export class FileDownloadPage {
 
   /**
    * Clicks the "Create" button to generate a text file.
-   * Waits until the button is visible before clicking.
    */
   async clickCreateButton(): Promise<void> {
     await this.createBtn.waitFor({ state: "visible" });
@@ -54,41 +48,34 @@ export class FileDownloadPage {
   }
 
   /**
-   * Downloads the created file and saves it to the "downloadFile" folder.
-   * If the folder does not exist, it is created.
-   * @returns The absolute file path where the downloaded file is saved.
+   * Downloads the created file and saves it to the ".artifacts/downloadFile" folder.
    */
- async downloadFile(): Promise<string> {
-  const [download] = await Promise.all([
-    this.page.waitForEvent("download"),
-    this.downloadLink.click(),
-  ]);
+  async downloadFile(): Promise<string> {
+    const [download] = await Promise.all([
+      this.page.waitForEvent("download"),
+      this.downloadLink.click(),
+    ]);
 
-  // Download folder in project root
-  const downloadDir = path.resolve(process.cwd(), ".artifacts/downloadFile");
+    // Ensure download folder exists in project root
+    const downloadDir = path.resolve(process.cwd(), ".artifacts/downloadFile");
+    if (!fs.existsSync(downloadDir)) {
+      fs.mkdirSync(downloadDir, { recursive: true });
+    }
 
-  // Ensure the folder exists
-  if (!fs.existsSync(downloadDir)) {
-    fs.mkdirSync(downloadDir, { recursive: true });
+    const filePath = path.resolve(downloadDir, await download.suggestedFilename());
+    await download.saveAs(filePath);
+    return filePath;
   }
 
-  const filePath = path.resolve(downloadDir, await download.suggestedFilename());
-  await download.saveAs(filePath);
-  return filePath;
-}
   /**
-   * Reads the contents of a file at the given path.
-   * @param filePath - The absolute path to the file to read.
-   * @returns The content of the file as a string.
+   * Reads a file's contents.
    */
   readFile(filePath: string): string {
     return fs.readFileSync(filePath, "utf-8");
   }
 
   /**
-   * Checks whether a file exists at the given path.
-   * @param filePath - The absolute path to the file to check.
-   * @returns True if the file exists, otherwise false.
+   * Checks if a file exists.
    */
   fileExists(filePath: string): boolean {
     return fs.existsSync(filePath);

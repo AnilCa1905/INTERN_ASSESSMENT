@@ -37,8 +37,8 @@ import { FileDownloadPage } from "./demoAutomationTesting/fileDownloadPage";
 
 type MyFixtures = {
   // QA Playground
-  homePage: HomePage;
-  miniWebApps: MiniWebApps;
+ homePage: HomePage;
+ miniWebApps: MiniWebApps;
   verifyAccountPage: VerifyAccountPage;
   tagsInputBoxPage: TagsInputBoxPage;
   dropdownPage: MultiLevelDropdownPage;

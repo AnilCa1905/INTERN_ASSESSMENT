@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import BasePage from "../basePage";
+import BasePage from "../demoAutomationTesting/basePage";
 
 /**
  * Page Object for handling the "Covered Elements" section.

@@ -11,6 +11,9 @@ import fs from "fs";
 import path from "path";
 import * as XLSX from "xlsx";
 
+// import HomePage from "./qaPlayGround/homePage";
+// import MiniWebApps from "./qaPlayGround/miniWebAppsPage";
+
 type MyFixtures = {
   custom: custom;
   playg: playg;
@@ -20,6 +23,8 @@ type MyFixtures = {
   pdfPageE:StaticTablePDFPage
   staticTablePage:StaticTablePage
   tablePage:DynamicTableExportPage
+  // homePage: HomePage;
+  // miniWebApps: MiniWebApps;
 };
 
 const test = base.extend<MyFixtures>({
@@ -50,7 +55,11 @@ const test = base.extend<MyFixtures>({
   tablePage:async({page},use)=>
   {
     await use(new DynamicTableExportPage(page))
-  }
+  },
+  //  homePage: async ({ page }, use) => use(new HomePage(page)),
+  //   miniWebApps: async ({ page }, use) => use(new MiniWebApps(page)),
 });
 
 export { test, expect,fs,path,XLSX};
+
+
