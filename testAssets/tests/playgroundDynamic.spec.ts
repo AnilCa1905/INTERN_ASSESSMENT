@@ -1,4 +1,4 @@
-import { test, expect,fs,path,XLSX} from "../pages/fixture";
+import { test, expect, path , fs, XLSX} from "../pages/fixture";
 
 
 test.describe("Dynamic table excel download and validation", () => {
