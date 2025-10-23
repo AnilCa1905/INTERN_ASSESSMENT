@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import BasePage from "../demoAutomationTesting/basePage";
+import BasePage from "./basePage"
 
 /**
  * Page Object for the Home Page of QA Playground.

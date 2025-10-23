@@ -58,23 +58,24 @@ export class FileDownloadPage {
    * If the folder does not exist, it is created.
    * @returns The absolute file path where the downloaded file is saved.
    */
-  async downloadFile(): Promise<string> {
-    const [download] = await Promise.all([
-      this.page.waitForEvent("download"),
-      this.downloadLink.click(),
-    ]);
+ async downloadFile(): Promise<string> {
+  const [download] = await Promise.all([
+    this.page.waitForEvent("download"),
+    this.downloadLink.click(),
+  ]);
 
-    // Ensure download folder exists
-    const downloadDir = path.resolve(__dirname, "../../.artifacts/downloadFile");
-    if (!fs.existsSync(downloadDir)) {
-      fs.mkdirSync(downloadDir, { recursive: true });
-    }
+  // Download folder in project root
+  const downloadDir = path.resolve(process.cwd(), ".artifacts/downloadFile");
 
-    const filePath = path.resolve(downloadDir, await download.suggestedFilename());
-    await download.saveAs(filePath);
-    return filePath;
+  // Ensure the folder exists
+  if (!fs.existsSync(downloadDir)) {
+    fs.mkdirSync(downloadDir, { recursive: true });
   }
 
+  const filePath = path.resolve(downloadDir, await download.suggestedFilename());
+  await download.saveAs(filePath);
+  return filePath;
+}
   /**
    * Reads the contents of a file at the given path.
    * @param filePath - The absolute path to the file to read.

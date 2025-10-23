@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import BasePage from "../demoAutomationTesting/basePage";
+import BasePage from "../basePage";
 
 export default class BudgetTrackerPage extends BasePage {
   readonly budgetHeader: Locator;

@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import BasePage from "../demoAutomationTesting/basePage";
+import BasePage from "./basePage";
 
 /**
  * Page Object for the Mini Web Apps section.

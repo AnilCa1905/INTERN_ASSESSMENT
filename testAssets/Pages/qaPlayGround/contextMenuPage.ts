@@ -1,5 +1,5 @@
 import { expect, Page, Locator } from "@playwright/test";
-import BasePage from "../demoAutomationTesting/basePage";
+import BasePage from "./basePage"
 
 export default class ContextMenuPage extends BasePage {
   private readonly contextMenuSection: Locator;

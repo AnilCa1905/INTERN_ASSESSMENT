@@ -1,5 +1,5 @@
 import { expect, Locator, Page, FrameLocator } from "@playwright/test";
-import BasePage from "../demoAutomationTesting/basePage";
+import BasePage from "./basePage"
 
 export default class ChangeableIframePage extends BasePage {
   readonly header: Locator;

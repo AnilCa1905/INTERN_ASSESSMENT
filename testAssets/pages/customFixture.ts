@@ -29,7 +29,7 @@ import FetchingDataPage from "./qaPlayGround/fetchingDataPage";
 import ChangeableIframePage from "./qaPlayGround/changeableIframePage";
 
 // Demo pages
-import BasePage from "./demoAutomationTesting/basePage";
+import BasePage from "./demoAutomationTesting/basePage"
 import DemoAlertPage from "./demoAutomationTesting/demoAlertPage"
 import DragDropPage from "./demoAutomationTesting/dragDropPage"
 import FileUploadPage from "./demoAutomationTesting/fileUploadPage"

@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import BasePage from '../demoAutomationTesting/basePage';
+import BasePage from './basePage';
 
 /**
  * Page Object for interacting with the "Verify Your Account" section.

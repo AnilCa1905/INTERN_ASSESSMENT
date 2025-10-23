@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import BasePage from "../demoAutomationTesting/basePage";
+import BasePage from "./basePage";
 import testData from "../../testData/testdata.json"
 
 /**

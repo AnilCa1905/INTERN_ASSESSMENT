@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import BasePage from "./basePage";
+import BasePage from "../basePage";
 
 /**
  * Page Object for handling different types of alerts:
