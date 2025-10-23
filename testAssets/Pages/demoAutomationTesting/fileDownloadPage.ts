@@ -1,7 +1,7 @@
 import { Page, Locator } from "@playwright/test";
 import path from "path";
 import fs from "fs";
-import BasePage from "./basePage"; 
+import BasePage from "../qaPlayGround/basePage";
 
 /**
  * Page Object Model for the "File Download" component.

@@ -1,4 +1,4 @@
-import { test, expect } from "../Pages/fixture";
+import { test, expect } from "../fixture"
 import menuData from "../testData/menuData.json";
 
 test.describe("QA PLAYGROUND SITE DEMO FUNCTIONALITIES", () => {

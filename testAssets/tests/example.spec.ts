@@ -1,4 +1,4 @@
-import { test, expect } from "../pages/fixture"
+import { test, expect } from "../fixture"
 
 test.describe("File download, upload and drag drop functionalities", () => {
   test("Download a txt file from the site and validating the contents inside the file match", async ({

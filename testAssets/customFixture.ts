@@ -3,37 +3,37 @@ import fs from "fs";
 import path from "path";
 
 // QA Playground pages
-import HomePage from "./qaPlayGround/homePage";
-import MiniWebApps from "./qaPlayGround/miniWebAppsPage";
-import VerifyAccountPage from "./qaPlayGround/verifyAccountPage";
-import TagsInputBoxPage from "./demoAutomationTesting/tagsInputBoxPage";
-import MultiLevelDropdownPage from "./qaPlayGround/multiLevelDropdownPage";
-import NewTabPage from "./qaPlayGround/newTabPage";
-import PopUpWindowPage from "./qaPlayGround/popUpWindowPage";
-import NestedIframePage from "./qaPlayGround/nestedIframePage";
-import StarsRatingPage from "./qaPlayGround/starsRatingWidgetPage";
-import CoveredElementsPage from "./qaPlayGround/coveredElementsPage";
-import QaUploadFilePage from "./qaPlayGround/qaUploadFilePage";
-import QaDownloadFilePage from "./qaPlayGround/qaDownloadFilePage";
-import ModalPopUpPage from "./qaPlayGround/modalPopUpPage";
-import BudgetTrackerPage from "./qaPlayGround/budgetTrackerPage";
-import MouseHoverPage from "./qaPlayGround/mouseHoverPage";
-import NavigationMenuPage from "./qaPlayGround/navigationMenuPage";
-import ContextMenuPage from "./qaPlayGround/contextMenuPage";
-import ShadowDomPage from "./qaPlayGround/shadowDomPage";
-import RatingRangeSliderPage from "./qaPlayGround/ratingRangeSliderPage";
-import { SortableListPage } from "./qaPlayGround/sotableListPage";
-import RedirectChainPage from "./qaPlayGround/redirectChainPage";
-import RightClickMenuPage from "./qaPlayGround/rightClickMenuPage";
-import FetchingDataPage from "./qaPlayGround/fetchingDataPage";
-import ChangeableIframePage from "./qaPlayGround/changeableIframePage";
+import HomePage from "./Pages/qaPlayGround/homePage";
+import MiniWebApps from "./Pages/qaPlayGround/miniWebAppsPage";
+import VerifyAccountPage from "./Pages/qaPlayGround/verifyAccountPage";
+import TagsInputBoxPage from "./Pages/demoAutomationTesting/tagsInputBoxPage";
+import MultiLevelDropdownPage from "./Pages/qaPlayGround/multiLevelDropdownPage";
+import NewTabPage from "./Pages/qaPlayGround/newTabPage";
+import PopUpWindowPage from "./Pages/qaPlayGround/popUpWindowPage";
+import NestedIframePage from "./Pages/qaPlayGround/nestedIframePage";
+import StarsRatingPage from "./Pages/qaPlayGround/starsRatingWidgetPage";
+import CoveredElementsPage from "./Pages/qaPlayGround/coveredElementsPage";
+import QaUploadFilePage from "./Pages/qaPlayGround/qaUploadFilePage";
+import QaDownloadFilePage from "./Pages/qaPlayGround/qaDownloadFilePage";
+import ModalPopUpPage from "./Pages/qaPlayGround/modalPopUpPage";
+import BudgetTrackerPage from "./Pages/qaPlayGround/budgetTrackerPage";
+import MouseHoverPage from "./Pages/qaPlayGround/mouseHoverPage";
+import NavigationMenuPage from "./Pages/qaPlayGround/navigationMenuPage";
+import ContextMenuPage from "./Pages/qaPlayGround/contextMenuPage";
+import ShadowDomPage from "./Pages/qaPlayGround/shadowDomPage";
+import RatingRangeSliderPage from "./Pages/qaPlayGround/ratingRangeSliderPage";
+import { SortableListPage } from "./Pages/qaPlayGround/sotableListPage";
+import RedirectChainPage from "./Pages/qaPlayGround/redirectChainPage";
+import RightClickMenuPage from "./Pages/qaPlayGround/rightClickMenuPage";
+import FetchingDataPage from "./Pages/qaPlayGround/fetchingDataPage";
+import ChangeableIframePage from "./Pages/qaPlayGround/changeableIframePage";
 
 // Demo pages
-import BasePage from "./demoAutomationTesting/basePage"
-import DemoAlertPage from "./demoAutomationTesting/demoAlertPage"
-import DragDropPage from "./demoAutomationTesting/dragDropPage"
-import FileUploadPage from "./demoAutomationTesting/fileUploadPage"
-import { FileDownloadPage } from "./demoAutomationTesting/fileDownloadPage";
+import BasePage from "./Pages/demoAutomationTesting/basePage"
+import DemoAlertPage from "./Pages/demoAutomationTesting/demoAlertPage"
+import DragDropPage from "./Pages/demoAutomationTesting/dragDropPage"
+import FileUploadPage from "./Pages/demoAutomationTesting/fileUploadPage"
+import { FileDownloadPage } from "./Pages/demoAutomationTesting/fileDownloadPage";
 
 type MyFixtures = {
   // QA Playground
