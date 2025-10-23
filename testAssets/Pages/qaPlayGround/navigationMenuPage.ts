@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import testData from "../testData/testdata.json";
+import testData from "../../testData/testdata.json"
 
 /**
  * Page Object for the Navigation Menu section.

@@ -1,7 +1,6 @@
 import { Locator, Page } from "@playwright/test";
-import BasePage from "./basePage";
-import testData from "../testData/testdata.json";
-
+import BasePage from "../demoAutomationTesting/basePage";
+import testData from "../../testData/testdata.json"
 
 /**
  * Page Object for Multi-Level Dropdown interactions.
