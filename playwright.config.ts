@@ -18,7 +18,7 @@ export default defineConfig({
 /**
  * See [https://playwright.dev/docs/test-configuration](https://playwright.dev/docs/test-configuration).
  */
-
+  snapshotDir: './.artifacts/snapshots',
   testDir: 'testAssets/tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
