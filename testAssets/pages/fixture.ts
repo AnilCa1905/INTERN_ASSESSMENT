@@ -1,69 +1,4 @@
-// import { test as base, expect } from "@playwright/test";
-// import custom from "./demoAutomationTesting/CustomTasks";
-// import playg from "./qaPlayGround/Qaplaytasks";
-// import scre from "./screenerApp/screenerPage";
-// import Playgcolour from "./tmPlayGround/playGroundCol";
-// import DynamicTableExportPDFPage from "./tmPlayGround/DynamicTableExportPDFPage";
-// import StaticTablePDFPage from "./tmPlayGround/StaticTablePDFPage";
-// import StaticTablePage from "./tmPlayGround/staticPage";
-// import DynamicTableExportPage from "./tmPlayGround/dynamicPage";
-// import fs from "fs";
-// import path from "path";
-// import * as XLSX from "xlsx";
 
-// // import HomePage from "./qaPlayGround/homePage";
-// // import MiniWebApps from "./qaPlayGround/miniWebAppsPage";
-
-// type MyFixtures = {
-//   custom: custom;
-//   playg: playg;
-//   scre: scre;
-//   playgco:Playgcolour
-//   pdfPage:DynamicTableExportPDFPage
-//   pdfPageE:StaticTablePDFPage
-//   staticTablePage:StaticTablePage
-//   tablePage:DynamicTableExportPage
-//   // homePage: HomePage;
-//   // miniWebApps: MiniWebApps;
-// };
-
-// const test = base.extend<MyFixtures>({
-//   custom: async ({ page }, use) => {
-//     await use(new custom(page));
-//   },
-//   playg: async ({ page }, use) => {
-//     await use(new playg(page));
-//   },
-//   scre: async ({ page }, use) => {
-//     await use(new scre(page));
-//   },
-//   playgco:async({page},use)=>{
-//     await use(new Playgcolour(page))
-//   },
-//   pdfPage:async({page},use)=>
-//   {
-//     await use(new DynamicTableExportPDFPage(page))
-//   },
-//   pdfPageE:async({page},use)=>
-//   {
-//     await use(new StaticTablePDFPage(page))
-//   },
-//   staticTablePage:async({page},use)=>
-//   {
-//     await use(new StaticTablePage(page))
-//   },
-//   tablePage:async({page},use)=>
-//   {
-//     await use(new DynamicTableExportPage(page))
-//   },
-//   //  homePage: async ({ page }, use) => use(new HomePage(page)),
-//   //   miniWebApps: async ({ page }, use) => use(new MiniWebApps(page)),
-// });
-
-// export { test, expect,fs,path,XLSX};
-
-
-// fixtures.ts
 import { test as base, Page, expect as baseExpect } from "@playwright/test";
 import fs from "fs";
 import path from "path";
@@ -81,7 +16,6 @@ import NestedIframePage from "./qaPlayGround/nestedIframePage";
 import StarsRatingPage from "./qaPlayGround/starsRatingWidgetPage";
 import CoveredElementsPage from "./qaPlayGround/coveredElementsPage";
 import QaUploadFilePage from "./qaPlayGround/qaUploadFilePage";
-import QaDownloadFilePage from "./qaPlayGround/qaDownloadFilePage";
 import ModalPopUpPage from "./qaPlayGround/modalPopUpPage";
 import BudgetTrackerPage from "./qaPlayGround/budgetTrackerPage";
 import MouseHoverPage from "./qaPlayGround/mouseHoverPage";
@@ -126,7 +60,6 @@ type MyFixtures = {
   starsRatingPage: StarsRatingPage;
   coveredElementsPage: CoveredElementsPage;
   qaUploadFilePage: QaUploadFilePage;
-  downloadPage: QaDownloadFilePage;
   modalPopUpPage: ModalPopUpPage;
   budgetTrackerPage: BudgetTrackerPage;
   mouseHoverPage: MouseHoverPage;
@@ -177,7 +110,6 @@ export const test = base.extend<MyFixtures>({
   starsRatingPage: async ({ page }, use) => use(new StarsRatingPage(page)),
   coveredElementsPage: async ({ page }, use) => use(new CoveredElementsPage(page)),
   qaUploadFilePage: async ({ page }, use) => use(new QaUploadFilePage(page)),
-  downloadPage: async ({ page }, use) => use(new QaDownloadFilePage(page)),
   modalPopUpPage: async ({ page }, use) => use(new ModalPopUpPage(page)),
   budgetTrackerPage: async ({ page }, use) => use(new BudgetTrackerPage(page)),
   mouseHoverPage: async ({ page }, use) => use(new MouseHoverPage(page)),

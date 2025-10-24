@@ -34,7 +34,7 @@ export default class QaUploadFilePage extends BasePage {
   async uploadFileAndReturnLocator(): Promise<Locator> {
     await this.uploadHeading.click();
     await this.uploadIcon.click();
-    const filePath = path.resolve(__dirname, '../testData/uploadFile.png');
+    const filePath = path.resolve(__dirname, '../../testData/uploadFile.png');
     await this.fileInput.setInputFiles(filePath);
     return this.uploadedFileName;
   }
