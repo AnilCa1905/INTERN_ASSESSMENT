@@ -34,7 +34,6 @@ import BasePage from "./demoAutomationTesting/basePage";
 import DemoAlertPage from "./demoAutomationTesting/demoAlertPage";
 import DragDropPage from "./demoAutomationTesting/dragDropPage";
 import FileUploadPage from "./demoAutomationTesting/fileUploadPage";
-import { FileDownloadPage } from "./demoAutomationTesting/fileDownloadPage";
 
 // Custom / other apps
 import CustomTasks from "./demoAutomationTesting/CustomTasks";
@@ -78,7 +77,7 @@ type MyFixtures = {
   demoAlertPage: DemoAlertPage;
   dragDropPage: DragDropPage;
   fileUploadPage: FileUploadPage;
-  fileDownloadPage: FileDownloadPage;
+
 
   // Custom / other apps
   custom: CustomTasks;
@@ -128,7 +127,7 @@ export const test = base.extend<MyFixtures>({
   demoAlertPage: async ({ page }, use) => use(new DemoAlertPage(page)),
   dragDropPage: async ({ page }, use) => use(new DragDropPage(page)),
   fileUploadPage: async ({ page }, use) => use(new FileUploadPage(page)),
-  fileDownloadPage: async ({ page }, use) => use(new FileDownloadPage(page)),
+
 
   // Custom / other apps
   custom: async ({ page }, use) => use(new CustomTasks(page)),

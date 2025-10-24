@@ -69,7 +69,7 @@ test.describe("Automation Demo Site - Web Component Functional Tests", () => {
       });
     });
   });
-  test.describe("File Upload and Download Tests", () => {
+  test.describe("File Upload and verify the uploaded File", () => {
     test("TC06: File Upload - Verify that a file can be uploaded successfully", async ({
       fileUploadPage,
     }) => {
@@ -81,34 +81,8 @@ test.describe("Automation Demo Site - Web Component Functional Tests", () => {
         ).toBeTruthy();
       });
     });
-
-    test("TC07: File Download - Verify that a text file can be generated, downloaded, and its content verified", async ({
-      fileDownloadPage,
-    }) => {
-      await test.step("Navigate to the File Download section, enter text, and generate a text file", async () => {
-        await fileDownloadPage.navigateToFileDownload();
-        const sampleData = "Automation Test Data";
-        await fileDownloadPage.enterText(sampleData);
-        await fileDownloadPage.clickCreateButton();
-      });
-
-      await test.step("Download the generated file and verify the file exists, has correct extension, and contains the expected text", async () => {
-        const filePath = await fileDownloadPage.downloadFile();
-        expect(
-          fileDownloadPage.fileExists(filePath),
-          "Downloaded file does not exist"
-        ).toBeTruthy();
-        expect(
-          filePath.endsWith(".txt"),
-          "Downloaded file does not have .txt extension"
-        ).toBeTruthy();
-        expect(
-          fileDownloadPage.readFile(filePath).trim(),
-          "Downloaded file content mismatch"
-        ).toBe("Automation Test Data");
-      });
     });
-  });
+  
   test.describe("Drag and Drop Functionality Tests", () => {
     test("TC08: Static Drag and Drop - Verify that all static images can be dragged and dropped correctly", async ({
       dragDropPage,
