@@ -2,6 +2,8 @@ import { Page, expect } from "@playwright/test";
 import fs from "fs";
 import path from "path";
 import { PdfReader } from "pdfreader";
+import BasePage from "./common3";
+import { DownloadHelper } from "../../../helpers/downloadFile";
 
 export default class StaticTablePDFPage extends BasePage{
   readonly page: Page;

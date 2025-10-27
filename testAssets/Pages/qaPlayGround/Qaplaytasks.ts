@@ -2,8 +2,10 @@ import { Page, expect, Locator } from "@playwright/test";
 import { SrvRecord } from "dns";
 import path from "path";
 import fs from "fs";
+import { UploadHelper } from "../../../helpers/uploadFile";
+import BasePage from "./common2";
 
-export default class Playground {
+export default class Playground extends BasePage {
   // Page reference
   readonly page: Page;
   private uploadHelper: UploadHelper;

@@ -6,18 +6,14 @@ import * as XLSX from "xlsx";
  * Handles operations related to the Static Table Export page,
  * including navigation, table data extraction, Excel export, and validation.
  */
-export default class StaticTablePage extends BasePage {
-  
+export default class StaticTablePage {
   readonly page: Page;
-  private downloadHelper: DownloadHelper;
 
   // Use artifacts folder for downloads
- // artifactsDir = path.resolve(process.cwd(), ".artifacts/downloads");
+  artifactsDir = path.resolve(process.cwd(), ".artifacts/downloads");
 
   constructor(page: Page) {
-    super(page);
     this.page = page;
-    this.downloadHelper = new DownloadHelper(page);
   }
 
   // Locators
@@ -47,11 +43,22 @@ export default class StaticTablePage extends BasePage {
   }
 
   async downloadExcel(): Promise<string> {
-    return await this.downloadHelper.downloadFile(
-      this.page.locator(this.excelExportBtn),
-      "static_employee_data.xlsx"
-    );
+    const downloadFileName = "static_employee_data.xlsx";
+    // Ensure artifacts directory exists
+    const fs = await import("fs/promises");
+    await fs.mkdir(this.artifactsDir, { recursive: true });
+
+    const downloadPath = path.join(this.artifactsDir, downloadFileName);
+
+    const [download] = await Promise.all([
+      this.page.waitForEvent("download"),
+      this.page.click(this.excelExportBtn),
+    ]);
+
+    await download.saveAs(downloadPath);
+    return downloadPath;
   }
+
   async validateExcel(
     pathToExcel: string,
     tableData: { headers: string[]; rows: string[][] }
