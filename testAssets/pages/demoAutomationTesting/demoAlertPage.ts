@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 import BasePage from "../qaPlayGround/basePage";
 
 /**
@@ -17,6 +17,8 @@ export default class DemoAlertPage extends BasePage {
   readonly promptAlertButton: Locator;
   readonly promptMessage: (text: string) => Locator;
   readonly defaultPromptMessage: Locator;
+  readonly messagePressedOk: Locator;
+  readonly messagePressedCancel: Locator;
   /**
    * Initializes all locators required for handling alerts
    * @param {Page} page - Playwright Page object
@@ -26,6 +28,10 @@ export default class DemoAlertPage extends BasePage {
     this.switchToLink = page.locator('//a[text()="SwitchTo"]');
     this.alertsLink = page.locator('//a[text()="Alerts"]');
     this.okTabButton = page.locator('//div[@id="OKTab"]//button');
+    this.messagePressedOk = page.locator('//p[text()="You pressed Ok"]');
+    this.messagePressedCancel = page.locator(
+      '//p[text()="You Pressed Cancel"]'
+    );
     this.confirmAlertLink = page.locator(
       '//a[text()="Alert with OK & Cancel "]'
     );
@@ -42,7 +48,6 @@ export default class DemoAlertPage extends BasePage {
       '//p[text()="Hello prompt How are you today"]'
     );
   }
-
   /**
    * Handles a simple alert by clicking OK
    * @returns {Promise<boolean>} True if alert was handled
@@ -51,13 +56,18 @@ export default class DemoAlertPage extends BasePage {
     await this.switchToLink.click();
     await this.alertsLink.click();
 
-    this.page.once("dialog", async (dialog) => {
-      await dialog.accept();
-    });
+    // Handle the alert and click simultaneously
+    await Promise.all([
+      this.page.waitForEvent("dialog").then((dialog) => dialog.accept()),
+      this.okTabButton.click(),
+    ]);
 
-    await this.okTabButton.click();
+    // Verify that the button is visible again after the alert is handled
+    await expect(this.okTabButton).toBeVisible();
+
     return true;
   }
+
   /**
    * Handles confirm alert and clicks OK
    * @returns {Promise<boolean>} True if alert was handled
@@ -67,11 +77,17 @@ export default class DemoAlertPage extends BasePage {
     await this.alertsLink.click();
     await this.confirmAlertLink.click();
 
+    // Set up listener for confirm alert
     this.page.once("dialog", async (dialog) => {
-      await dialog.accept();
+      await dialog.accept(); // click OK on alert
     });
 
+    // Trigger the confirm alert
     await this.confirmAlertButton.click();
+
+    // After alert is handled, ensure the button is visible again
+    await expect(this.messagePressedOk).toBeVisible();
+
     return true;
   }
 
@@ -83,12 +99,11 @@ export default class DemoAlertPage extends BasePage {
     await this.switchToLink.click();
     await this.alertsLink.click();
     await this.confirmAlertLink.click();
-
     this.page.once("dialog", async (dialog) => {
       await dialog.dismiss();
     });
-
     await this.confirmAlertButton.click();
+    await expect(this.messagePressedCancel).toBeVisible();
     return true;
   }
 
@@ -124,6 +139,7 @@ export default class DemoAlertPage extends BasePage {
     });
 
     await this.promptAlertButton.click();
-    return !(await this.defaultPromptMessage.isVisible());
+    await expect(this.defaultPromptMessage).not.toBeVisible();
+    return true;
   }
 }
