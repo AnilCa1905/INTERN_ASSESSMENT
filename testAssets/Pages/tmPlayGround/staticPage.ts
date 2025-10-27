@@ -1,7 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import path from "path";
 import * as XLSX from "xlsx";
-import BasePage from "./common3";
 
 /**
  * Handles operations related to the Static Table Export page,
@@ -10,13 +9,15 @@ import BasePage from "./common3";
 export default class StaticTablePage extends BasePage {
   
   readonly page: Page;
+  private downloadHelper: DownloadHelper;
 
   // Use artifacts folder for downloads
-  artifactsDir = path.resolve(process.cwd(), ".artifacts/downloads");
+ // artifactsDir = path.resolve(process.cwd(), ".artifacts/downloads");
 
   constructor(page: Page) {
     super(page);
     this.page = page;
+    this.downloadHelper = new DownloadHelper(page);
   }
 
   // Locators
@@ -46,22 +47,11 @@ export default class StaticTablePage extends BasePage {
   }
 
   async downloadExcel(): Promise<string> {
-    const downloadFileName = "static_employee_data.xlsx";
-    // Ensure artifacts directory exists
-    const fs = await import("fs/promises");
-    await fs.mkdir(this.artifactsDir, { recursive: true });
-
-    const downloadPath = path.join(this.artifactsDir, downloadFileName);
-
-    const [download] = await Promise.all([
-      this.page.waitForEvent("download"),
-      this.page.click(this.excelExportBtn),
-    ]);
-
-    await download.saveAs(downloadPath);
-    return downloadPath;
+    return await this.downloadHelper.downloadFile(
+      this.page.locator(this.excelExportBtn),
+      "static_employee_data.xlsx"
+    );
   }
-
   async validateExcel(
     pathToExcel: string,
     tableData: { headers: string[]; rows: string[][] }
