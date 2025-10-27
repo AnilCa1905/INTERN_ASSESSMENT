@@ -1,18 +1,21 @@
 import { Page, expect } from "@playwright/test";
 import path from "path";
 import * as XLSX from "xlsx";
+import BasePage from "./common3";
 
 /**
  * Handles operations related to the Static Table Export page,
  * including navigation, table data extraction, Excel export, and validation.
  */
-export default class StaticTablePage {
+export default class StaticTablePage extends BasePage {
+  
   readonly page: Page;
 
   // Use artifacts folder for downloads
   artifactsDir = path.resolve(process.cwd(), ".artifacts/downloads");
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
   }
 

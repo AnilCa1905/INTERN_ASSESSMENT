@@ -2,8 +2,9 @@ import { Page, expect } from "@playwright/test";
 import fs from "fs";
 import path from "path";
 import { PdfReader } from "pdfreader";
+import BasePage from "./common3";
 
-export default class StaticTablePDFPage {
+export default class StaticTablePDFPage extends BasePage{
   readonly page: Page;
   downloadDir = path.resolve(process.cwd(), ".artifacts/pgdownloads");
   exportPdfButton = '//a[text()="📋 Export to PDF"]';
@@ -15,6 +16,7 @@ export default class StaticTablePDFPage {
    * @param {Page} page - The Playwright Page instance.
    */
   constructor(page: Page) {
+    super(page);
     this.page = page;
     if (!fs.existsSync(this.downloadDir)) {
       fs.mkdirSync(this.downloadDir, { recursive: true });

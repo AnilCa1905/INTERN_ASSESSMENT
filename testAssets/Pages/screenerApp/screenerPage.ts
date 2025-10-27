@@ -1,6 +1,7 @@
 import { Page, Locator, expect, BrowserContext } from "@playwright/test";
+import BasePage from "./common4";
 
-export default class ScreenerTask {
+export default class ScreenerTask extends BasePage {
   readonly page: Page;
   readonly registerPage: Locator;
   readonly emailReg: Locator;
@@ -9,6 +10,7 @@ export default class ScreenerTask {
   readonly regButton: Locator;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.registerPage = page.locator('//a[text()="Get free account"]');
     this.emailReg = page.locator('//input[@name="email"]');
@@ -17,14 +19,7 @@ export default class ScreenerTask {
     this.regButton = page.locator('//button[text()="Create account"]');
   }
 
-  /**
-   * Launches the Screener.in homepage.
-   * @returns {Promise<void>} Resolves when the homepage is fully loaded.
-   */
-  async launchWebsite() {
-    await this.page.goto("https://www.screener.in/");
-    await this.page.waitForLoadState("networkidle");
-  }
+
 
   /**
    * Navigates from the homepage to the registration page.
