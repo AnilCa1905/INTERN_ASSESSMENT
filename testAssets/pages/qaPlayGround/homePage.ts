@@ -22,14 +22,6 @@ export default class HomePage extends BasePage {
   }
 
   /**
-   * Navigate to a given URL.
-   * @param {string} url - The URL to navigate to.
-   */
-  async navigate(url: string): Promise<void> {
-    await this.page.goto(url);
-  }
-
-  /**
    * Click the "Mini Web Apps" link.
    */
   async clickMiniWebApps(): Promise<void> {

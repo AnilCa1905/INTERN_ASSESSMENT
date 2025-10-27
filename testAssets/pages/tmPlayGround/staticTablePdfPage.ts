@@ -3,8 +3,9 @@ import fs from "fs";
 import path from "path";
 import { PdfReader } from "pdfreader";
 import { DownloadHelper } from "../../../helpers/downloadFile";
+import common from './common';
 
-export default class StaticTablePDFPage {
+export default class StaticTablePDFPage extends common{
   readonly page: Page;
   private downloadHelper: DownloadHelper;
  // downloadDir = path.resolve(process.cwd(), ".artifacts/pgdownloads");
@@ -17,6 +18,7 @@ export default class StaticTablePDFPage {
    * @param {Page} page - The Playwright Page instance.
    */
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.downloadHelper = new DownloadHelper(page);
   }

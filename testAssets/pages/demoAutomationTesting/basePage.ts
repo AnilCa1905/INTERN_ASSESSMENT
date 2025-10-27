@@ -1,6 +1,10 @@
 import { Page } from "@playwright/test";
 
-export default class BasePage {
+/**
+ * BasePage class for the Demo Automation Testing site.
+ * Handles navigation using the SECONDARY_BASE_URL.
+ */
+export default class SecondaryBasePage {
   protected page: Page;
 
   constructor(page: Page) {
@@ -8,30 +12,20 @@ export default class BasePage {
   }
 
   /**
-   * Navigate to a given URL.
-   * @param url {string} - The URL to navigate to.
+   * Navigate to a specific path within the Demo Automation site.
+   * @param {string} [path=""] - Relative path to append to SECONDARY_BASE_URL.
    */
-  async navigate(url: string) {
-    await this.page.goto(url);
-  }
-  /**
-   * Navigate to the secondary application URL defined in environment variables.
-   * @throws Will throw an error if SECONDARY_BASE_URL is not defined in the .env file.
-   */
-  async navigateToSecondaryApp() {
-    const secondaryUrl = process.env.SECONDARY_BASE_URL;
-    if (!secondaryUrl) {
+  async navigate(path: string = ""): Promise<void> {
+    const baseUrl = process.env.SECONDARY_BASE_URL;
+    if (!baseUrl) {
       throw new Error("SECONDARY_BASE_URL is not defined in the .env file");
     }
-    await this.page.goto(secondaryUrl);
+    await this.page.goto(`${baseUrl}${path}`);
   }
 
-  /**
-   * Check if an element is visible on the page.
-   * @param locator {string} - The selector or locator of the element to check visibility.
-   * @returns {Promise<boolean>} True if the element is visible, otherwise false.
-   */
+  /** Check if an element is visible on the page. */
   async isVisible(locator: string): Promise<boolean> {
     return await this.page.locator(locator).isVisible();
   }
 }
+

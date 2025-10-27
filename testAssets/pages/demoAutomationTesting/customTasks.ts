@@ -1,16 +1,15 @@
 import { Locator, Page, expect } from "@playwright/test";
-import fs from "fs";
 import path from "path";
-import { PdfReader } from "pdfreader";
 import { UploadHelper } from "../../../helpers/uploadFile";
 import { DownloadHelper } from "../../../helpers/downloadFile";
+import BasePage from "./basePage"; 
 
 /**
  * CustomTask class automates various user interactions
  * such as file download, upload, and drag-and-drop actions
  * on the Automation Demo site (https://demo.automationtesting.in).
  */
-export default class CustomTask {
+export default class CustomTask extends BasePage { 
   readonly page: Page;
   private uploadHelper: UploadHelper;
   private downloadHelper: DownloadHelper;
@@ -48,10 +47,12 @@ export default class CustomTask {
    * @param {Page} page - Playwright Page object.
    */
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.uploadHelper = new UploadHelper(page);
     this.downloadHelper = new DownloadHelper(page);
-    // Menu and navigation elements
+
+    // all locators remain unchanged
     this.moreLink = page.locator('//a[text()="More"]');
     this.downloadPage = page.locator('//a[text()="File Download"]');
     this.downloadPageHeading = page.locator('//h2[text()="File Download Demo for Automation"]');
@@ -59,15 +60,11 @@ export default class CustomTask {
     this.generateButton = page.locator('//button[@id="createTxt"]');
     this.downloadFil = page.locator('//a[@id="link-to-download"]');
     this.mainHead = page.locator('//h1[text()="Automation Demo Site "]');
-
-    // Upload page
     this.uploadPage = page.locator('//a[text()="File Upload"]');
     this.uploadInput = page.locator('//input[@id="input-4"]');
     this.removeButton = page.locator('//span[text()="Remove"]');
     this.uploadButton = page.locator('//span[text()="Upload"]');
     this.browseFile = page.locator('//span[text()="Browse …"]');
-
-    // Interaction and drag-and-drop
     this.interactionLink = page.locator('//a[text()="Interactions "]');
     this.staticLink = page.locator('//a[text()="Static "]');
     this.dragAndDrop = page.locator('//a[text()="Drag and Drop "]');
@@ -78,15 +75,12 @@ export default class CustomTask {
     this.checkDrop = page.locator('//div[@id="droparea"]');
     this.dynamicLink = page.locator('//a[text()="Dynamic "]');
     this.downloadButton = page.locator("#link-to-download");
-
-    // Images for drag-and-drop validation
     this.angularImage = page.locator('//img[@id="angular"]');
     this.mongoImage = page.locator('//img[@id="mongo"]');
     this.nodeImage = page.locator('//img[@id="node"]');
     this.staticPage = page.locator('//a[text()="Static "]');
   }
-
-   /**
+     /**
    * Launches the Automation Demo website.
    * Navigates directly to the Static page for interactions.
    */

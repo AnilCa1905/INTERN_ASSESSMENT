@@ -1,8 +1,9 @@
 import { expect, Locator } from "@playwright/test";
 import { Page } from "@playwright/test";
 import * as fs from "fs";
+import common from './common';
 
-export default class DynamicTableExportPage {
+export default class DynamicTableExportPage extends common{
   readonly page: Page;
   readonly nameInp: Locator;
   readonly categoryInp: Locator;
@@ -11,6 +12,7 @@ export default class DynamicTableExportPage {
   readonly addButton: Locator;
   readonly excelButton: Locator;
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.nameInp = page.locator('//input[@placeholder="Name"]');
     this.categoryInp = page.locator('//input[@placeholder="Category"]');
@@ -19,11 +21,11 @@ export default class DynamicTableExportPage {
     this.addButton = page.locator('//button[text()="➕ Add Row"]');
     this.excelButton = page.locator('//button[text()="📊 Export to Excel"]');
   }
-
   /**
    * Navigates to the Dynamic Table Export component page.
    * @returns {Promise<void>} Resolves after navigation completes.
    */
+ 
   async navigate() {
     await this.page.goto(
       "https://www.playground.testingmavens.tools/components"

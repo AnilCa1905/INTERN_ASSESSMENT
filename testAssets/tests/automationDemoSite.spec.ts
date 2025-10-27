@@ -3,7 +3,7 @@ import { test, expect } from "../pages/fixture"
 test.describe("Automation Demo Site - Web Component Functional Tests", () => {
   test.beforeEach(async ({ basePage }) => {
     await test.step("Navigate to the Automation Demo secondary application", async () => {
-      await basePage.navigateToSecondaryApp();
+      await basePage.navigate();
     });
   });
 

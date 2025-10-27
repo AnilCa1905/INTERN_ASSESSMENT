@@ -36,12 +36,12 @@ import DragDropPage from "./demoAutomationTesting/dragDropPage";
 import FileUploadPage from "./demoAutomationTesting/fileUploadPage";
 
 // Custom / other apps
-import CustomTasks from "./demoAutomationTesting/CustomTasks";
-import Qaplaytasks from "./qaPlayGround/Qaplaytasks";
+import CustomTasks from "./demoAutomationTesting/customTasks";
+import Qaplaytasks from "./qaPlayGround/qaPlayTasks";
 import ScreenerPage from "./screenerApp/screenerPage";
 import PlayGroundCol from "./tmPlayGround/playGroundCol";
-import DynamicTableExportPDFPage from "./tmPlayGround/DynamicTableExportPDFPage";
-import StaticTablePDFPage from "./tmPlayGround/StaticTablePDFPage";
+import DynamicTableExportPDFPage from "./tmPlayGround/dynamicTableExportPdfPage";
+import StaticTablePDFPage from "./tmPlayGround/staticTablePdfPage";
 import StaticTablePage from "./tmPlayGround/staticPage";
 import DynamicTableExportPage from "./tmPlayGround/dynamicPage";
 

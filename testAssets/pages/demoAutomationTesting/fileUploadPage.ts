@@ -24,7 +24,7 @@ export default class FileUploadPage extends BasePage {
     super(page);
 
     // Updated path to point to testData folder
-    this.filePath = path.resolve(__dirname, "../testData/uploadFile.png");
+    this.filePath = path.resolve(__dirname, "../../testData/uploadFile.png");
     this.moreMenu = page.locator('//a[text()="More"]');
     this.fileUploadLink = page.locator('//a[text()="File Upload"]');
     this.fileInput = page.locator('//input[@id="input-4"]');

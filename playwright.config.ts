@@ -60,8 +60,18 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
-    // Other browsers can be enabled if needed
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
+    // {
+    //   name: 'edge',
+    //   use: { ...devices['Desktop Edge'] },
+    // },
   ],
 
   /* Run your local dev server before starting the tests */

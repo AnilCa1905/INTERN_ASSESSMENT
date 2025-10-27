@@ -3,8 +3,9 @@ import fs from "fs";
 import path from "path";
 import { PdfReader } from "pdfreader";
 import {DownloadHelper} from "../../../helpers/downloadFile";
+import common from './common';
 
-export default class DynamicTableExportPDFPage {
+export default class DynamicTableExportPDFPage extends common {
   readonly page: Page;
   readonly nameInp: Locator;
   readonly categoryInp: Locator;
@@ -24,6 +25,7 @@ export default class DynamicTableExportPDFPage {
    */
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.nameInp = page.locator('//input[@placeholder="Name"]');
     this.categoryInp = page.locator('//input[@placeholder="Category"]');

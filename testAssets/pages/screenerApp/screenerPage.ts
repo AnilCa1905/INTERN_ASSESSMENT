@@ -1,6 +1,7 @@
 import { Page, Locator, expect, BrowserContext } from "@playwright/test";
+import common from './common';
 
-export default class ScreenerTask {
+export default class ScreenerTask extends common {
   readonly page: Page;
   readonly registerPage: Locator;
   readonly emailReg: Locator;
@@ -9,6 +10,7 @@ export default class ScreenerTask {
   readonly regButton: Locator;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.registerPage = page.locator('//a[text()="Get free account"]');
     this.emailReg = page.locator('//input[@name="email"]');
@@ -16,8 +18,7 @@ export default class ScreenerTask {
     this.password = page.locator('//input[@name="password"]');
     this.regButton = page.locator('//button[text()="Create account"]');
   }
-
-  /**
+    /**
    * Launches the Screener.in homepage.
    * @returns {Promise<void>} Resolves when the homepage is fully loaded.
    */
