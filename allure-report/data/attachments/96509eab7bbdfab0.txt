@@ -1,0 +1,71 @@
+Final UI extraction: 34 products
+UI Product 1: Blue Top - UI Category
+UI Product 2: Men Tshirt - UI Category
+UI Product 3: Sleeveless Dress - UI Category
+UI Product 4: Stylish Dress - UI Category
+UI Product 5: Winter Top - UI Category
+UI Product 6: Summer White Top - UI Category
+UI Product 7: Madame Top For Women - UI Category
+UI Product 8: Fancy Green Top - UI Category
+UI Product 9: Sleeves Printed Top - White - UI Category
+UI Product 10: Half Sleeves Top Schiffli Detailing - Pink - UI Category
+UI Product 11: Frozen Tops For Kids - UI Category
+UI Product 12: Full Sleeves Top Cherry - Pink - UI Category
+UI Product 13: Printed Off Shoulder Top - White - UI Category
+UI Product 14: Sleeves Top and Short - Blue & Pink - UI Category
+UI Product 15: Little Girls Mr. Panda Shirt - UI Category
+UI Product 16: Sleeveless Unicorn Patch Gown - Pink - UI Category
+UI Product 17: Cotton Mull Embroidered Dress - UI Category
+UI Product 18: Blue Cotton Indie Mickey Dress - UI Category
+UI Product 19: Long Maxi Tulle Fancy Dress Up Outfits -Pink - UI Category
+UI Product 20: Sleeveless Unicorn Print Fit & Flare Net Dress - Multi - UI Category
+UI Product 21: Colour Blocked Shirt – Sky Blue - UI Category
+UI Product 22: Pure Cotton V-Neck T-Shirt - UI Category
+UI Product 23: Green Side Placket Detail T-Shirt - UI Category
+UI Product 24: Premium Polo T-Shirts - UI Category
+UI Product 25: Pure Cotton Neon Green Tshirt - UI Category
+UI Product 26: Soft Stretch Jeans - UI Category
+UI Product 27: Regular Fit Straight Jeans - UI Category
+UI Product 28: Grunt Blue Slim Fit Jeans - UI Category
+UI Product 29: Rose Pink Embroidered Maxi Dress - UI Category
+UI Product 30: Cotton Silk Hand Block Print Saree - UI Category
+UI Product 31: Rust Red Linen Saree - UI Category
+UI Product 32: Beautiful Peacock Blue Cotton Linen Saree - UI Category
+UI Product 33: Lace Top For Women - UI Category
+UI Product 34: GRAPHIC DESIGN MEN T SHIRT - BLUE - UI Category
+Retrieved 34 products from API
+API Product 1: Blue Top - undefined
+API Product 2: Men Tshirt - undefined
+API Product 3: Sleeveless Dress - undefined
+API Product 4: Stylish Dress - undefined
+API Product 5: Winter Top - undefined
+API Product 6: Summer White Top - undefined
+API Product 7: Madame Top For Women - undefined
+API Product 8: Fancy Green Top - undefined
+API Product 9: Sleeves Printed Top - White - undefined
+API Product 10: Half Sleeves Top Schiffli Detailing - Pink - undefined
+API Product 11: Frozen Tops For Kids - undefined
+API Product 12: Full Sleeves Top Cherry - Pink - undefined
+API Product 13: Printed Off Shoulder Top - White - undefined
+API Product 14: Sleeves Top and Short - Blue & Pink - undefined
+API Product 15: Little Girls Mr. Panda Shirt - undefined
+API Product 16: Sleeveless Unicorn Patch Gown - Pink - undefined
+API Product 17: Cotton Mull Embroidered Dress - undefined
+API Product 18: Blue Cotton Indie Mickey Dress - undefined
+API Product 19: Long Maxi Tulle Fancy Dress Up Outfits -Pink - undefined
+API Product 20: Sleeveless Unicorn Print Fit & Flare Net Dress - Multi - undefined
+API Product 21: Colour Blocked Shirt – Sky Blue - undefined
+API Product 22: Pure Cotton V-Neck T-Shirt - undefined
+API Product 23: Green Side Placket Detail T-Shirt - undefined
+API Product 24: Premium Polo T-Shirts - undefined
+API Product 25: Pure Cotton Neon Green Tshirt - undefined
+API Product 26: Soft Stretch Jeans - undefined
+API Product 27: Regular Fit Straight Jeans - undefined
+API Product 28: Grunt Blue Slim Fit Jeans - undefined
+API Product 29: Rose Pink Embroidered Maxi Dress - undefined
+API Product 30: Cotton Silk Hand Block Print Saree - undefined
+API Product 31: Rust Red Linen Saree - undefined
+API Product 32: Beautiful Peacock Blue Cotton Linen Saree - undefined
+API Product 33: Lace Top For Women - undefined
+API Product 34: GRAPHIC DESIGN MEN T SHIRT - BLUE - undefined
+API–UI data consistency verified successfully!

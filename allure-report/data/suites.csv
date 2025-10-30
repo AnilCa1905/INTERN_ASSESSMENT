@@ -1,0 +1,2 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","16600","Validate products displayed on UI match API data","","Wed Oct 29 17:09:44 IST 2025","passed","Wed Oct 29 17:10:01 IST 2025","API–UI Consistency Validation","","",""
