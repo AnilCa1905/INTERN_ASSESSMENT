@@ -19,7 +19,14 @@ export default class ScreenerTask extends BasePage {
     this.regButton = page.locator('//button[text()="Create account"]');
   }
 
-
+     /**
+   * Launches the Screener.in homepage.
+   * @returns {Promise<void>} Resolves when the homepage is fully loaded.
+   */
+  async launchWebsite() {
+    await this.page.goto("https://www.screener.in/");
+    await this.page.waitForLoadState("networkidle");
+  }
 
   /**
    * Navigates from the homepage to the registration page.

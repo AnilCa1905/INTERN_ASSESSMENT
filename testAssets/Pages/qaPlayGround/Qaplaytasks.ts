@@ -217,6 +217,10 @@ export default class Playground extends BasePage {
     this.goBackButton = page.locator('//a[text()="Go Back"]');
   }
 
+    /** Launch QA Playground website */
+  async launchWebsite() {
+    await this.page.goto("https://qaplayground.dev/#apps");
+  }
 
 
   /** Navigate to Dynamic Table section */
