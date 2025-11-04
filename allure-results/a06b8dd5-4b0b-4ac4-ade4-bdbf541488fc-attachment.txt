@@ -1,0 +1,110 @@
+Extracted Editor Text:
+ Rich Text Formatting Example
+
+
+  
+
+
+    This is a bold, italic, and underlined sentence to test text formatting.
+  
+
+
+
+  
+
+
+    You can also mix styles like bold italic or 
+    colored underline.
+  
+
+
+
+  
+
+
+    This text has a highlight and a 
+    different font size and color.
+  
+
+
+
+  
+
+Lists
+
+
+  
+
+
+
+
+
+
+  
+
+Numbered List
+
+
+  
+
+Point one
+Point two with bold text
+Point three with italic text
+
+
+
+  
+
+
+    “This is a blockquote example, useful for testing indentation and special text formatting.”
+  
+
+
+
+  
+
+
+    Here’s an example link and some 
+    monospace text.
+Rendered Quill HTML:
+ <p>
+
+
+  </p><p><br></p><p>
+  </p><p><br></p><p>
+  </p><p><br></p><p>
+  </p><p><br></p><p>
+
+
+  </p><h1>Rich Text Formatting Example</h1><p>
+  </p><p>
+    This is a <strong>bold</strong>, <em>italic</em>, and <u>underlined</u> sentence to test text formatting.
+  </p><p>
+
+  </p><p>
+    You can also mix styles like <strong><em>bold italic</em></strong> or 
+    <u><span style="color: red;">colored underline</span></u>.
+  </p><p>
+
+  </p><p class="highlight">
+    This text has a <span style="background-color: yellow;">highlight</span> and a 
+    <span style="font-size: 18px; color: blue;">different font size and color</span>.
+  </p><p>
+
+  </p><h2>Lists</h2><p>
+  </p><p><br></p><p>
+
+  </p><h2>Numbered List</h2><p>
+  </p><ol><li><span class="ql-ui" contenteditable="false"></span>Point one</li><li><span class="ql-ui" contenteditable="false"></span>Point two with <strong>bold</strong> text</li><li><span class="ql-ui" contenteditable="false"></span>Point three with <em>italic</em> text</li></ol><p>
+
+  </p><blockquote>
+    “This is a blockquote example, useful for testing indentation and special text formatting.”
+  </blockquote><p>
+
+  </p><p>
+    Here’s an <a href="https://example.com" target="_blank">example link</a> and some 
+    monospace text.
+  </p><p>
+
+
+</p>

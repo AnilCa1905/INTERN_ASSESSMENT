@@ -1,5 +1,8 @@
 import { Page, Locator, expect, APIRequestContext } from "@playwright/test";
 import { CommonPage } from "./commonPage";
+import fs from "fs";
+import path from "path";
+
 
 /**
  * Represents the "Products" page and provides methods
@@ -104,39 +107,65 @@ export class AutoApiUiPage extends CommonPage {
   }
 
   /**
-   * Compares product data retrieved from the API with data extracted from the UI.
-   * Logs mismatches (if any) and asserts that all UI products match API data.
-   *
-   * @async
-   * @param {{ name: string; price: string }[]} apiData - Product data from the API.
-   * @param {{ name: string; price: string }[]} uiData - Product data from the UI.
-   * @returns {Promise<void>} Resolves after comparison and validation.
-   *
-   * @example
-   * await autoApiUiPage.compareApiAndUiData(apiProducts, uiProducts);
-   */
-  async compareApiAndUiData(
-    apiData: { name: string; price: string }[],
-    uiData: { name: string; price: string }[]
-  ): Promise<void> {
-    const mismatches: string[] = [];
+ * Compares product data retrieved from the API with data extracted from the UI.
+ * Logs mismatches (if any), writes them to a JSON report file for traceability,
+ * and asserts that all UI products are present and correctly matched in the API data.
+ *
+ * @async
+ * @param {{ name: string; price: string }[]} apiData - Product data retrieved from the API.
+ * @param {{ name: string; price: string }[]} uiData - Product data extracted from the UI.
+ * @returns {Promise<void>} Resolves after comparison, logging, and report generation.
+ *
+ * @example
+ * await autoApiUiPage.compareApiAndUiData(apiProducts, uiProducts);
+ *
+ * @remarks
+ * - Mismatches (if any) are stored in `.artifacts/api_ui_mismatches.json`.
+ * - The JSON file is removed automatically when all validations pass.
+ * - Each mismatch entry includes the product name, price, and issue description.
+ */
+async compareApiAndUiData(
+  apiData: { name: string; price: string }[],
+  uiData: { name: string; price: string }[]
+): Promise<void> {
+  const mismatches: { name: string; price: string; issue: string }[] = [];
 
-    for (const uiItem of uiData) {
-      const apiMatch = apiData.find(
-        (apiItem) => apiItem.name === uiItem.name && apiItem.price === uiItem.price
-      );
+  // Identify mismatched or missing products between API and UI
+  for (const uiItem of uiData) {
+    const apiMatch = apiData.find(
+      (apiItem) => apiItem.name === uiItem.name && apiItem.price === uiItem.price
+    );
 
-      if (!apiMatch) {
-        mismatches.push(`Mismatch: ${uiItem.name} - ${uiItem.price} not found in API`);
-      }
+    if (!apiMatch) {
+      mismatches.push({
+        name: uiItem.name,
+        price: uiItem.price,
+        issue: "Not found or mismatched in API response",
+      });
     }
-
-    if (mismatches.length > 0) {
-      console.log("API–UI Mismatches found:\n" + mismatches.join("\n"));
-    } else {
-      console.log("API–UI data consistency verified successfully!");
-    }
-
-    expect(mismatches, mismatches.join("\n")).toHaveLength(0);
   }
+
+  // Ensure .artifacts directory exists
+  const resultsDir = path.join(process.cwd(), ".artifacts");
+  if (!fs.existsSync(resultsDir)) {
+    fs.mkdirSync(resultsDir, { recursive: true });
+  }
+
+  const reportPath = path.join(resultsDir, "api_ui_mismatches.json");
+
+  // Generate mismatch report or clean previous one
+  if (mismatches.length > 0) {
+    fs.writeFileSync(reportPath, JSON.stringify(mismatches, null, 2), "utf-8");
+    console.log(`⚠️  API–UI mismatches found! Saved details to ${reportPath}\n`);
+    mismatches.forEach((m, i) =>
+      console.log(`${i + 1}. ${m.name} - ${m.price} (${m.issue})`)
+    );
+  } else {
+    console.log("✅ API–UI data consistency verified successfully!");
+    if (fs.existsSync(reportPath)) fs.unlinkSync(reportPath);
+  }
+
+  // Assert all items match; show mismatch file path on failure
+  expect(mismatches, `See ${reportPath} for mismatch details`).toHaveLength(0);
+}
 }
